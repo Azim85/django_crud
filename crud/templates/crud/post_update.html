@@ -1,0 +1,28 @@
+{% extends "crud/base.html" %} {% block content %}
+<div class="min-h-screen py-12">
+	<div class="max-w-7xl mx-auto px-6">
+		<div class="bg-gray-100 rounded-3xl shadow-xl p-8">
+			<form method="post" enctype="multipart/form-data" class="space-y-6">
+				{% csrf_token %} {% for field in form %}
+				<div>
+					<label class="block text-sm font-medium text-gray-700 mb-1">
+						{{ field.label }}
+					</label>
+					{{ field }} {% if field.errors %}
+					<p class="text-red-500 text-sm mt-1">{{ field.errors|striptags }}</p>
+					{% endif %}
+				</div>
+				{% endfor %}
+
+				<button
+					type="submit"
+					class="px-6 py-2 bg-indigo-600 text-white rounded-lg"
+				>
+					Update
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
