@@ -4,9 +4,9 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		{% block title %}
-		<title>CRUD App</title>
-		{% endblock %}
+
+		<title>{% block title %}CRUD App{% endblock %}</title>
+
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="" />
@@ -92,8 +92,10 @@
 				<nav
 					class="flex flex-col px-6 py-4 space-y-3 font-medium text-gray-700"
 				>
-					<a href="#" class="hover:text-indigo-600">Home</a>
-					<a href="#" class="hover:text-indigo-600">About</a>
+					<a href="{% url 'post-list' %}" class="hover:text-indigo-600">Home</a>
+					<a href="{% url 'post-create' %}" class="hover:text-indigo-600"
+						>Create</a
+					>
 					<a href="#" class="hover:text-indigo-600">Services</a>
 					<a href="#" class="hover:text-indigo-600">Blog</a>
 					<a href="#" class="hover:text-indigo-600">Contact</a>

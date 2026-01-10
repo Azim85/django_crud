@@ -26,7 +26,7 @@ def post_create(request):
     return render(request, 'crud/post_create.html', {'form':form})
 
 def post_update(request, id):
-    post = Post.objects.get(id=id)
+    post = get_object_or_404(Post, id=id)
 
     if post.author != request.user:
         return redirect('post-list')
@@ -39,8 +39,16 @@ def post_update(request, id):
             post.save()
             return redirect(post.get_absolute_url())
     form = PostForm(instance=post)
-    return render(request, 'crud/post_update.html', {'form':form})
+    return render(request, 'crud/post_update.html', {'form':form, 'post':post})
 
+@login_required
+def post_delete(request, id):
+    post = get_object_or_404(Post, id=id)
 
-def post_delete(request):
-    pass
+    if post.author != request.user:
+        return redirect('post-list')
+    
+    if request.method == 'POST':
+        post.delete()
+        return redirect('post-list')
+    return render(request, 'crud/warning.html', {'post':post})

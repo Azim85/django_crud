@@ -3,6 +3,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.prettierignore
+.prettierrc
 
 # C extensions
 *.so

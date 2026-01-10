@@ -1,0 +1,61 @@
+{% extends 'crud/base.html' %} {% block title %}Warning{% endblock %} 
+{%block content %} {% load static %}
+
+<div
+	class="min-h-screen bg-slate-100 flex items-center justify-center px-4 py-12"
+>
+	<div class="bg-white rounded-3xl shadow-2xl p-10 max-w-md text-center">
+		<!-- Warning Icon -->
+		<div class="mb-6">
+			<svg
+				class="mx-auto h-12 w-12 text-red-600"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M12 9v2m0 4h.01M12 5.25L2 21h20L12 5.25z"
+				/>
+			</svg>
+		</div>
+
+		<!-- Heading -->
+		<h1 class="text-2xl font-bold text-gray-800 mb-4">Are you sure?</h1>
+
+		<!-- Message -->
+		<p class="text-gray-600 mb-8">
+			Do you really want to delete the post "<span class="font-semibold"
+				>{{ post.title }}</span
+			>"? This action cannot be undone.
+		</p>
+
+		<!-- Buttons -->
+		<div class="flex justify-center gap-4">
+			<!-- Cancel -->
+			<a
+				href="{{ post.get_absolute_url }}"
+				class="px-6 py-2 bg-gray-300 text-gray-800 font-semibold rounded-xl hover:bg-gray-400 transition"
+			>
+				Cancel
+			</a>
+
+			<!-- Confirm Delete -->
+			<form method="post" class="">
+				{% csrf_token %}
+				<button
+					type="submit"
+					class="px-6 py-2 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition"
+				>
+					Delete
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

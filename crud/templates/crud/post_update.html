@@ -1,4 +1,5 @@
-{% extends "crud/base.html" %} {% block content %}
+{% extends "crud/base.html" %} {% block title %}Post Update{% endblock %}
+{%block content %}
 <div class="min-h-screen py-12">
 	<div class="max-w-7xl mx-auto px-6">
 		<div class="bg-gray-100 rounded-3xl shadow-xl p-8">
@@ -20,6 +21,12 @@
 				>
 					Update
 				</button>
+				<a
+					href="{{post.get_absolute_url}}"
+					class="px-6 py-2 bg-gray-600 text-white rounded-lg"
+				>
+					Cancel
+				</a>
 			</form>
 		</div>
 	</div>
