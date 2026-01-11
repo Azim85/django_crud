@@ -37,12 +37,12 @@
 					<!-- Desktop Menu -->
 					<nav class="hidden md:flex space-x-8 font-medium text-gray-700">
 						<a
-							href="{% url 'post-list' %}"
+							href="{% url 'crud:post-list' %}"
 							class="hover:text-indigo-600 transition"
 							>Home</a
 						>
 						<a
-							href="{% url 'post-create' %}"
+							href="{% url 'crud:post-create' %}"
 							class="hover:text-indigo-600 transition"
 							>Create</a
 						>
@@ -54,10 +54,14 @@
 					<!-- CTA Button -->
 					<div class="hidden md:block">
 						<a
-							href="#"
+							href=""
 							class="px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-md hover:opacity-90 transition"
 						>
-							Get Started
+              {% if request.user.is_authenticated %}
+							{{ request.user }}
+                {% else %}
+                register
+              {% endif %}
 						</a>
 					</div>
 
@@ -92,8 +96,8 @@
 				<nav
 					class="flex flex-col px-6 py-4 space-y-3 font-medium text-gray-700"
 				>
-					<a href="{% url 'post-list' %}" class="hover:text-indigo-600">Home</a>
-					<a href="{% url 'post-create' %}" class="hover:text-indigo-600"
+					<a href="{% url 'crud:post-list' %}" class="hover:text-indigo-600">Home</a>
+					<a href="{% url 'crud:post-create' %}" class="hover:text-indigo-600"
 						>Create</a
 					>
 					<a href="#" class="hover:text-indigo-600">Services</a>
