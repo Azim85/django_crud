@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from .forms import PostForm
 
@@ -87,6 +88,19 @@ def post_update(request, id):
             return redirect(post.get_absolute_url())
     form = PostForm(instance=post)
     return render(request, 'crud/post_update.html', {'form':form, 'post':post})
+
+
+# CBV PostDelete
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'crud/warning.html'
+    context_object_name = 'post'
+    pk_url_kwarg = 'id'
+    success_url = reverse_lazy('post-list')
+
+    def test_func(self):
+        post = self.get_object()
+        return post.author == self.request.user
 
 @login_required
 def post_delete(request, id):
