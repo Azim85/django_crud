@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Post
 from .forms import PostForm
 
@@ -23,8 +23,14 @@ def post_list(request):
     context = {'posts':posts}
     return render(request, 'crud/post_list.html', context)
 
+# CBV PostDetailView
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'crud/post_detail.html'
+    context_object_name = 'post'
+    pk_url_kwarg = 'id'
 
-
+# FBV
 def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
     context = {'post':post}
