@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post
 from .forms import PostForm
 
-# CBV
+# CBV PostListView
 class PostListView(ListView):
     model = Post
     template_name = 'crud/post_list.html'
@@ -37,7 +37,6 @@ def post_detail(request, id):
     context = {'post':post}
     return render(request, 'crud/post_detail.html', context)
 
-
 # CBV PostCreateView
 class PostCreateView(CreateView):
     model = Post
@@ -49,12 +48,7 @@ class PostCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-
-
-
-
-
-
+# FBV
 def post_create(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -65,6 +59,18 @@ def post_create(request):
             return redirect(post.get_absolute_url())
     form = PostForm()
     return render(request, 'crud/post_create.html', {'form':form})
+
+
+# CBV PostUpdateView
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = 'crud/post_update.html'
+    context_object_name = 'post'
+    fields = ['title', 'description', 'image']
+    pk_url_kwarg = 'id'
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
 def post_update(request, id):
     post = get_object_or_404(Post, id=id)
