@@ -1,19 +1,36 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
 from .models import Post
 from .forms import PostForm
 
+# CBV
+class PostListView(ListView):
+    model = Post
+    template_name = 'crud/post_list.html'
+    context_object_name = 'posts'
+    ordering = '-created_at'
+    paginate_by = 3
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PostListView, self).get_context_data(**kwargs)
+        context['title'] = 'All posts'
+        return context
+
+# FBV
 def post_list(request):
     posts = Post.objects.all()
     context = {'posts':posts}
     return render(request, 'crud/post_list.html', context)
+
+
 
 def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
     context = {'post':post}
     return render(request, 'crud/post_detail.html', context)
     
-@login_required
+
 def post_create(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)

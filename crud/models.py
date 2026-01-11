@@ -9,6 +9,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to='post_images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'Post'

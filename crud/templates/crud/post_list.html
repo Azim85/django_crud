@@ -1,4 +1,6 @@
-{% extends "crud/base.html" %}{% load static %} {% block content %}
+{% extends "crud/base.html" %}{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
 
 <section class="max-w-7xl mx-auto px-6 py-12">
 	<h1 class="text-3xl font-bold text-gray-800 mb-10">Latest Posts</h1>
@@ -41,5 +43,42 @@
 		{% endfor %}
 	</div>
 </section>
+
+  {% if is_paginated %}
+<div class="flex justify-center mt-8">
+  <nav class="inline-flex shadow-sm rounded-md">
+
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}"
+         class="px-3 py-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100">
+        Prev
+      </a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span
+          class="px-4 py-2 border border-blue-600 bg-blue-600 text-white font-semibold">
+          {{ num }}
+        </span>
+      {% else %}
+        <a href="?page={{ num }}"
+           class="px-4 py-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100">
+          {{ num }}
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}"
+         class="px-3 py-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100">
+        Next
+      </a>
+    {% endif %}
+
+  </nav>
+</div>
+{% endif %}
+
 
 {% endblock content %}
