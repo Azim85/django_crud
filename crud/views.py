@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Post
 from .forms import PostForm
 
@@ -35,7 +36,24 @@ def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
     context = {'post':post}
     return render(request, 'crud/post_detail.html', context)
-    
+
+
+# CBV PostCreateView
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'description', 'image']
+    template_name = 'crud/post_create.html'
+    success_url = reverse_lazy('post-list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+
+
+
+
 
 def post_create(request):
     if request.method == 'POST':
